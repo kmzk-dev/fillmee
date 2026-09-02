@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FILLMEE (フィルミー) - 公式ポータルサイト</title>
+    <meta
+        name="description"
+        content="個人事業主 FILLMEE（フィルミー）の公式ポータルサイトです。Androidアプリ、Chrome拡張機能の開発から、Slack/Salesforce/GWS自動化、API構築、QA・ITコンサルティングを提供します。"
+    >
+
+    <!-- Bootstrap 5 CSS CDN (Single CSS Framework) -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous"
+    >
+
+    <!-- Bootstrap Icons CDN -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Google reCAPTCHA v2 API -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    </head>
+
+<body class="d-flex flex-column min-vh-100 text-start">
+<!-- Header / Navigation -->
+<header class="sticky-top bg-white border-bottom border-light-subtle shadow-sm z-3">
+    <nav class="navbar navbar-expand-lg py-2">
+    <div class="container">
+        <!-- Brand Logo -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <div
+            class="d-flex align-items-center justify-content-center bg-primary text-white fw-bold rounded-3"
+            style="width: 38px; height: 38px; font-size: 1.2rem;"
+        >
+            F
+        </div>
+        <div class="d-flex flex-column text-start">
+            <span class="fw-bolder fs-5 text-dark lh-1">FILLMEE</span>
+            <span class="text-muted fw-normal" style="font-size: 10px;">フィルミー</span>
+        </div>
+        </a>
+
+        <!-- Mobile Toggler -->
+        <button
+        class="navbar-toggler border-0"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarContent"
+        aria-controls="navbarContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        >
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-3 text-start">
+            <li class="nav-item">
+            <a class="nav-link text-secondary fw-semibold py-2" href="#portal">アプリを見る</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-secondary fw-semibold py-2" href="#solutions">相談できる事</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-secondary fw-semibold py-2" href="#about">事業概要とPII</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-secondary fw-semibold py-2" href="#contact">お問い合わせ</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+    </nav>
+</header>
+
+<main class="flex-grow-1">
+    <!-- Hero Section (Left-Aligned) -->
+    <section class="section-padding hero-section border-bottom border-light-subtle">
+    <div class="container">
+        <div class="row align-items-center">
+        <div class="col-lg-9 col-xl-8 text-start">
+            <div class="hero-badge mb-3">
+            <span class="bg-primary rounded-circle d-inline-block" style="width: 8px; height: 8px;"></span>
+            FILLMEE 公式ポータルサイト
+            </div>
+
+            <h1 class="display-6 fw-bold text-dark tracking-tight lh-sm mb-3">
+            日々の「ちょっと不便」を、<br>
+            デジタルで「ちょうどよく」。<br>
+            <span class="text-brand">身近なアプリ開発 ＆ 小さな自動化</span>
+            </h1>
+
+            <p class="lead text-secondary mb-4 fs-6 lh-lg">
+            FILLMEE（フィルミー）は、日々の生活をちょっと快適にするスマホアプリやツールの開発。<br>
+            「ここだけ自動化したい」「手作業を少しラクにしたい」といった小さなお困りごとの解消まで、身近なデジタル技術でお手伝いします。
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 pt-1 text-start">
+            <a
+                href="https://dev.fillmee.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary btn-lg fw-bold px-4 py-2.5 rounded-3 d-inline-flex align-items-center gap-2 shadow-sm"
+            >
+                <span>アプリを見る</span>
+                <i class="bi bi-box-arrow-up-right small"></i>
+            </a>
+            <a
+                href="#solutions"
+                class="btn btn-outline-secondary btn-lg fw-semibold px-4 py-2.5 rounded-3 d-inline-flex align-items-center gap-1"
+            >
+                <span>相談できる事</span>
+                <i class="bi bi-arrow-down-short fs-5"></i>
+            </a>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Subdomain / Portal Section (Left-Aligned) -->
+    <section id="portal" class="section-padding bg-light border-bottom border-light-subtle">
+    <div class="container">
+        <div class="mb-4 text-start">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">アプリを見る</span>
+        <h2 class="fw-bold text-dark mt-2 mb-1">個人プロダクト</h2>
+        <p class="text-secondary small mb-0">「自分が本当に使いたいもの」を形にしてお届けしています。</p>
+        </div>
+
+        <div class="row text-start justify-content-center">
+        <div class="col-lg-12 col-xl-11">
+            <div class="card rounded-4 p-4 p-md-5 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-2 fw-bold">
+                DEV.FILLMEE.COM
+                </span>
+                <span class="text-muted font-monospace small">アプリ＆使い方ガイド</span>
+            </div>
+            <h3 class="h4 fw-bold text-dark d-flex align-items-center gap-2 mb-3">
+                <i class="bi bi-grid-fill text-success"></i>
+                「自分がほしい」から生まれたアプリたち
+            </h3>
+            <p class="text-secondary small lh-lg mb-4">
+                日々の暮らしや作業の中で「こんなツールがあったら便利なのに」と自身が感じたものを開発・運用しています。<br>
+                その一部を同じような不便を感じている方にも使っていただけるよう公開しています。<br>
+                AndroidアプリやGoogle Chrome拡張機能の一覧、詳しい使い方、FAQ、個別規約はポータル（dev.fillmee.com）をご覧ください。
+            </p>
+            <div class="pt-3 border-top d-flex justify-content-end align-items-center">
+                <a
+                href="https://dev.fillmee.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary fw-bold px-4 py-2 rounded-pill d-inline-flex align-items-center gap-2"
+                >
+                <span>dev.fillmee.com を開く</span>
+                <i class="bi bi-box-arrow-up-right small"></i>
+                </a>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Solutions Section (Left-Aligned, Non-technical Friendly) -->
+    <section id="solutions" class="section-padding bg-white border-bottom border-light-subtle">
+    <div class="container">
+        <div class="mb-4 text-start">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">相談できる事</span>
+        <h2 class="fw-bold text-dark mt-2 mb-1">現在、提供中のサービス</h2>
+        <p class="text-secondary small mb-0">「普段の業務をラクにしたい」「AIをつかってもうまくいかない」現場のお悩みを解決します。</p>
+        </div>
+
+        <div class="row g-4 text-start solutions-grid">
+        <!-- Solution 1: Slack -->
+        <div class="col-md-6 col-lg-4 solutions-item">
+            <div class="card rounded-4 p-4 bg-light h-100">
+            <div
+                class="icon-box bg-purple-subtle text-primary"
+                style="background-color: #f3e8ff !important; color: #7e22ce !important;"
+            >
+                <i class="bi bi-slack"></i>
+            </div>
+            <h3 class="h6 fw-bold text-dark mb-1">Slack（チャット）の便利化・自動化</h3>
+            <p class="text-primary small fw-semibold mb-3">ボタンひとつで作業が片付く仕組みづくり</p>
+            <ul class="list-unstyled text-secondary small lh-base mb-0 space-y-2">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>迷わず使える操作感:</strong> 「承認ボタンを押したら通知がすっきり消える」など、誰でも直感的に使えるチャットボットを作成します。</span>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>失敗しても安心:</strong> 別のシステムとの連携で万が一エラーが起きても、自動で分かりやすく教えてくれる親切な設計にします。</span>
+                </li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- Solution 2: Salesforce -->
+        <div class="col-md-6 col-lg-4 solutions-item">
+            <div class="card rounded-4 p-4 bg-light h-100">
+            <div class="icon-box" style="background-color: #e0f2fe; color: #0284c7;">
+                <i class="bi bi-cloud-check-fill"></i>
+            </div>
+            <h3 class="h6 fw-bold text-dark mb-1">Salesforceの入力・作業の自動化</h3>
+            <p class="text-info-emphasis small fw-semibold mb-3">あとから自分たちでも直しやすい優しい設計</p>
+            <ul class="list-unstyled text-secondary small lh-base mb-0">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>見てわかる仕組みを優先:</strong> 難しいプログラムを書かず、画面上のブロックを組み立てる方式をメインにして、社内での引き継ぎをラクにします。</span>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>必要なときだけ特別対応:</strong> 大量のデータ処理など、どうしても特別なプログラムが必要な時だけ安全にコードを書いて補強します。</span>
+                </li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- Solution 3: Google Workspace -->
+        <div class="col-md-6 col-lg-4 solutions-item">
+            <div class="card rounded-4 p-4 bg-light h-100">
+            <div class="icon-box" style="background-color: #fef3c7; color: #d97706;">
+                <i class="bi bi-google"></i>
+            </div>
+            <h3 class="h6 fw-bold text-dark mb-1">スプレッドシート・Gmailの自動化</h3>
+            <p class="text-warning-emphasis small fw-semibold mb-3">追加費用をかけずに日々の手作業をゼロへ</p>
+            <ul class="list-unstyled text-secondary small lh-base mb-0">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>今あるツールをそのまま活用:</strong> お使いのGoogle機能を使って、メールの一括送信や転記作業などを無料の範囲で自動化します。</span>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>重い作業も賢く処理:</strong> 大量のデータを扱う場合も、動いた時間だけ支払う仕組みを活用して、費用を抑えながらサクサク動かします。</span>
+                </li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- Solution 4: API構築 -->
+        <div class="col-md-6 col-lg-4 solutions-item">
+            <div class="card rounded-4 p-4 bg-light h-100">
+            <div class="icon-box" style="background-color: #e0e7ff; color: #4338ca;">
+                <i class="bi bi-diagram-3-fill"></i>
+            </div>
+            <h3 class="h6 fw-bold text-dark mb-1">ツール同士をつなぐ架け橋づくり</h3>
+            <p class="text-brand small fw-semibold mb-3">バラバラなシステムの二重入力をなくす</p>
+            <ul class="list-unstyled text-secondary small lh-base mb-0">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>小さくスマートにつなぐ:</strong> 「あっちのソフトに入力したら、こっちにも反映」という橋渡しを作り、壊れにくく安定して動かします。</span>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>無駄なコストをかけない:</strong> 毎月高いサーバー代を払わずに済むよう、お手頃な環境でしっかり動く仕組みを選びます。</span>
+                </li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- Solution 5: QA品質保証 -->
+        <div class="col-md-6 col-lg-4 solutions-item">
+            <div class="card rounded-4 p-4 bg-light h-100">
+            <div class="icon-box" style="background-color: #ffe4e6; color: #e11d48;">
+                <i class="bi bi-patch-check-fill"></i>
+            </div>
+            <h3 class="h6 fw-bold text-dark mb-1">使いやすさ＆バグの事前チェック</h3>
+            <p class="text-danger-emphasis small fw-semibold mb-3">使い始める前の「不安」をプロの目で解消</p>
+            <ul class="list-unstyled text-secondary small lh-base mb-0">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>使う人の目線でテスト:</strong> 「変な操作をしたら止まらないか」「操作しづらくないか」を現場目線でしっかり確認します。</span>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                <span><strong>トラブルを未然に防止:</strong> スタートしてから慌てることがないよう、不具合やわかりにくい箇所を事前に洗い出します。</span>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Business Information Section (Left-Aligned) -->
+    <section id="about" class="section-padding bg-light border-bottom border-light-subtle">
+    <div class="container">
+        <div class="mb-4 text-start">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">事業概要とPII</span>
+        <h2 class="fw-bold text-dark mt-2 mb-1">事業者概要</h2>
+        <p class="text-secondary small mb-0">特定商取引法および Google Play デベロッパー登録要件に基づく事業者情報です。</p>
+        </div>
+
+        <div class="row text-start justify-content-center">
+        <div class="col-lg-12 col-xl-11">
+            <div class="card border-light-subtle shadow-sm rounded-4 overflow-hidden bg-white">
+            <div class="table-responsive">
+                <table class="table table-bordered mb-0 align-middle small text-start">
+                <tbody>
+                    <tr>
+                    <th class="bg-light text-secondary fw-bold py-3 px-4" style="width: 25%;">屋号名</th>
+                    <td class="py-3 px-4 fw-bold text-dark">FILLMEE（日本語表記: フィルミー）</td>
+                    </tr>
+                    <tr>
+                    <th class="bg-light text-secondary fw-bold py-3 px-4">事業形態</th>
+                    <td class="py-3 px-4">個人事業主</td>
+                    </tr>
+                    <tr>
+                    <th class="bg-light text-secondary fw-bold py-3 px-4">所在地</th>
+                    <td class="py-3 px-4">
+                        〒150-0043<br>
+                        東京都渋谷区道玄坂1丁目10番8号 渋谷道玄坂東急ビル2F-C
+                    </td>
+                    </tr>
+                    <tr>
+                    <th class="bg-light text-secondary fw-bold py-3 px-4">事業内容</th>
+                    <td class="py-3 px-4">
+                        <ul class="list-unstyled mb-0 space-y-1">
+                        <li class="mb-1 d-flex align-items-start gap-1">
+                            <i class="bi bi-chevron-right text-primary small mt-1"></i>
+                            <span>スマートフォン向けアプリ（Android等）の企画・開発・運用</span>
+                        </li>
+                        <li class="mb-1 d-flex align-items-start gap-1">
+                            <i class="bi bi-chevron-right text-primary small mt-1"></i>
+                            <span>ブラウザ拡張機能（Chrome等）の企画・開発・運用</span>
+                        </li>
+                        <li class="mb-1 d-flex align-items-start gap-1">
+                            <i class="bi bi-chevron-right text-primary small mt-1"></i>
+                            <span>Slack Botの企画・開発・運用 / 担当者の支援。</span>
+                        </li>
+                        <li class="mb-1 d-flex align-items-start gap-1">
+                            <i class="bi bi-chevron-right text-primary small mt-1"></i>
+                            <span>SaaS（Salesforce、Google Workspace）を活用した業務の自動化の企画・開発・運用/担当者の支援</span>
+                        </li>
+                        <li class="mb-1 d-flex align-items-start gap-1">
+                            <i class="bi bi-chevron-right text-primary small mt-1"></i>
+                            <span>API（Google Cloud）の企画・開発・運用</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-1">
+                            <i class="bi bi-chevron-right text-primary small mt-1"></i>
+                            <span>システム連携、アプリの使いやすさ・不具合チェック</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-1">
+                            <i class="bi bi-chevron-right text-primary small mt-1"></i>
+                            <span>システム/IT担当者不在の企業向け伴走・育成サポート</span>
+                        </li>
+                        </ul>
+                    </td>
+                    </tr>
+                    <tr>
+                    <th class="bg-light text-secondary fw-bold py-3 px-4">対応言語・技術</th>
+                    <td class="py-3 px-4">
+                        <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill">Python（Flask / FastAPI）</span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill">TypeScript（React / DenoSlackSDK）</span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill">JavaScript</span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill">Google Apps Script</span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill">PHP（Laravel）</span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill">Dart（Flutter）</span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill">Apex</span>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr>
+                    <th class="bg-light text-secondary fw-bold py-3 px-4">プライバシー規定</th>
+                    <td class="py-3 px-4">
+                        <button
+                        type="button"
+                        class="btn btn-sm btn-link p-0 text-primary fw-bold text-decoration-none"
+                        data-bs-toggle="modal"
+                        data-bs-target="#privacyModal"
+                        >
+                        <i class="bi bi-shield-lock-fill me-1"></i> 全体プライバシーポリシーを表示
+                        </button>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Contact Section (Left-Aligned, User's specified markup) -->
+    <section id="contact" class="section-padding bg-white">
+    <div class="container text-start">
+        <div class="mb-4 text-start">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">Contact</span>
+        <h2 class="fw-bold text-dark mt-2 mb-1">お問い合わせ</h2>
+        <p class="lead text-secondary fs-6 mb-3" style="max-width: 800px;">
+            事前に<a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="alert-link fw-bold">プライバシーポリシー</a>をご確認の上、ご同意いただける場合のみお問い合わせください。
+        </p>
+        </div>
+
+        <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+            <div class="p-4 p-md-5">
+            <form
+                id="contact-form"
+                class="row g-3 needs-validation"
+                method="POST"
+                action="https://fillmee.bambina.jp/api/from-githubpages/dev-fillmee-mailsend-api.php"
+                novalidate
+            >
+                <div class="col-12 text-center">
+                    <div class="form-check text-start">
+                        <input class="form-check-input js-consent-check" type="checkbox" id="privacyConsent" required onchange="toggleFormInputs()">
+                        <label class="form-check-label small" for="privacyConsent">
+                        プライバシーポリシーと利用規約に同意します
+                        </label>
+                        <div class="invalid-feedback text-start">同意が必要です。</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 text-start">
+                <label for="inputName" class="form-label small fw-bold">お名前 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control js-conditional-input" id="inputName" name="inputName" placeholder="山田 太郎" required disabled>
+                <div class="invalid-feedback text-start">お名前を入力してください。</div>
+                </div>
+
+                <div class="col-md-6 text-start">
+                <label for="inputCompany" class="form-label small fw-bold">所属企業・組織名</label>
+                <input type="text" class="form-control js-conditional-input" id="inputCompany" name="inputCompany" placeholder="株式会社〇〇" disabled>
+                </div>
+
+                <div class="col-12 text-start">
+                <label for="inputEmail" class="form-label small fw-bold">メールアドレス <span class="text-danger">*</span></label>
+                <input type="email" class="form-control js-conditional-input" id="inputEmail" name="inputEmail" placeholder="name@example.com" required disabled>
+                <div class="invalid-feedback text-start">有効なメールアドレスを入力してください。</div>
+                </div>
+
+                <div class="col-12 text-start">
+                <label for="inputSubject" class="form-label small fw-bold">件名 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control js-conditional-input" id="inputSubject" name="inputSubject" placeholder="例：業務自動化のご相談、お見積りについて 等" required disabled>
+                <div class="invalid-feedback text-start">件名を入力してください。</div>
+                </div>
+
+                <div class="col-12 text-start">
+                <label for="inputMessage" class="form-label small fw-bold">内容 <span class="text-danger">*</span></label>
+                <textarea class="form-control js-conditional-input" id="inputMessage" name="inputMessage" rows="5" placeholder="お問い合わせ内容を詳しくご記入ください" required disabled></textarea>
+                <div class="invalid-feedback text-start">内容を入力してください。</div>
+                </div>
+
+                <div class="col-12 mb-3 text-start" id="recaptcha-wrapper">
+                <div
+                    class="g-recaptcha"
+                    data-sitekey="6LfiPeIrAAAAAEasdYDTJ3JruituyplArcFJvl9e"
+                    data-callback="enableForm"
+                    data-expired-callback="disableForm"
+                ></div>
+                </div>
+
+                <div class="col-12 text-start mt-3">
+                <button type="submit" id="submitBtn" class="btn btn-primary btn-lg px-5 js-conditional-input" disabled>
+                    <i class="bi bi-send-fill me-2"></i> 送信
+                </button>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+</main>
+
+<!-- Privacy Policy Modal -->
+<div class="modal fade text-start" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-bottom px-4 py-3 bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-shield-fill-check text-primary fs-5"></i>
+            <h5 class="modal-title fw-bold text-dark" id="privacyModalLabel">全体プライバシーポリシー</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body px-4 py-4 lh-base text-secondary small">
+        <p class="mb-4">
+            FILLMEE（以下「当事業」）は、個人情報の保護に関する法令を遵守し、以下の基本方針に基づき適正な取り扱いと保護に努めます。
+        </p>
+
+        <div class="border rounded-3 p-3 bg-light mb-4">
+            <div class="d-flex align-items-center gap-2 text-dark fw-bold mb-1">
+            <i class="bi bi-info-circle text-primary"></i> 制定・適用情報
+            </div>
+            <div>制定日: 2024年4月1日 / 最終改定日: 2026年9月1日</div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-1">第1条（基本方針）</h6>
+            <p class="mb-0">当事業は、ユーザーのプライバシーを尊重し、個人情報の保護に関する法令を遵守するとともに、適正な収集・利用・安全管理を徹底いたします。</p>
+            </div>
+
+            <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-1">第2条（収集する情報および利用目的）</h6>
+            <p class="mb-2">当事業が提供するウェブサイトおよびサービスにおいて、以下の目的の範囲内で必要最小限の情報を取得する場合があります。</p>
+            <ul class="mb-0 ps-3">
+                <li><strong>お問い合わせ情報（氏名、組織名、メールアドレス等）:</strong> ユーザーサポート、ご相談・返信対応のため</li>
+                <li><strong>アクセスログ・クッキー情報:</strong> サイトおよびサービスのセキュリティ向上・稼働状況把握のため</li>
+            </ul>
+            </div>
+
+            <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-1">第3条（個人情報の第三者提供）</h6>
+            <p class="mb-0">法令に基づく開示要請がある場合を除き、取得した個人情報を事前にご本人の同意を得ることなく第三者へ提供・開示することはありません。</p>
+            </div>
+
+            <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-1">第4条（外部サービスの利用・スパム対策）</h6>
+            <p class="mb-0">安全な通信の確保およびスパム防止のため、Google reCAPTCHA などの外部セキュリティサービスを利用しています。これらは各提供元のプライバシーポリシーに従って管理されます。</p>
+            </div>
+
+            <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-1">第5条（個別プロダクトのポリシー）</h6>
+            <p class="mb-0">
+                当事業が配信する個別のスマートフォンアプリ（Android等）および拡張機能における詳細なデータ収集方針については、各プロダクトの紹介ページ（<a href="https://dev.fillmee.com" target="_blank" rel="noopener noreferrer" class="text-primary fw-bold">dev.fillmee.com</a>）をご確認ください。
+            </p>
+            </div>
+
+            <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-1">第6条（ポリシーの変更・改定）</h6>
+            <p class="mb-0">法令の改正や事業内容の変更に伴い、本ポリシーを予告なく改定することがあります。最新の内容は本ポータルサイト上にて公開いたします。</p>
+            </div>
+
+            <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-1">第7条（お問い合わせ窓口）</h6>
+            <div class="bg-light p-3 rounded-2 border">
+                <div><strong>事業体名:</strong> FILLMEE（フィルミー）</div>
+                <div><strong>所在地:</strong> 〒150-0043 東京都渋谷区道玄坂1丁目10番8号 渋谷道玄坂東急ビル2F-C</div>
+                <div><strong>連絡方法:</strong> 本ポータル内のお問い合わせフォームよりご連絡ください。</div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="modal-footer border-top px-4 py-2 bg-light">
+        <button type="button" class="btn btn-secondary btn-sm px-4 rounded-3" data-bs-dismiss="modal">閉じる</button>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- Footer (Left-Aligned) -->
+<footer class="bg-dark text-white-50 py-5 text-start">
+    <div class="container">
+    <div class="row gy-4 pb-4 border-bottom border-secondary">
+        <div class="col-md-5">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <div
+            class="bg-primary text-white fw-bold rounded-2 d-flex align-items-center justify-content-center"
+            style="width: 28px; height: 28px; font-size: 14px;"
+            >
+            F
+            </div>
+            <span class="text-white fw-bold fs-6">FILLMEE</span>
+        </div>
+        <p class="small text-white-50 mb-0">個人事業主 FILLMEE 公式ポータルサイト</p>
+        </div>
+
+        <div class="col-md-7 d-flex justify-content-md-end justify-content-start">
+        <ul class="nav justify-content-start gap-3 small align-items-center flex-wrap">
+            <li class="nav-item">
+            <a href="https://dev.fillmee.com" target="_blank" rel="noopener noreferrer" class="nav-link px-0 text-decoration-none">プロダクトハブ (dev)</a>
+            </li>
+            <li class="nav-item">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="nav-link px-0 text-decoration-none">プライバシーポリシー</a>
+            </li>
+            <li class="nav-item">
+            <a href="#contact" class="nav-link px-0 text-decoration-none">お問い合わせ</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center pt-3 small text-white-50 gap-2">
+        <div>〒150-0043 東京都渋谷区道玄坂1丁目10番8号 渋谷道玄坂東急ビル2F-C</div>
+        <div>&copy; <span id="currentYear"></span> FILLMEE. All Rights Reserved.</div>
+    </div>
+    </div>
+</footer>
+
+<!-- Bootstrap 5 Bundle JS (Includes Popper for Modal/Collapse) -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+></script>
+
+<script>
+    // 1. Set current year
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // 2. Form input enabling logic based on consent check
+    let isRecaptchaPassed = false;
+
+    function toggleFormInputs() {
+    const consentCheck = document.getElementById('privacyConsent');
+    const inputs = document.querySelectorAll('.js-conditional-input');
+    const isChecked = consentCheck.checked;
+
+    inputs.forEach((input) => {
+        if (input.id !== 'submitBtn') {
+        input.disabled = !isChecked;
+        }
+    });
+
+    updateSubmitBtn();
+    }
+
+    // reCAPTCHA Callbacks
+    window.enableForm = function () {
+    isRecaptchaPassed = true;
+    updateSubmitBtn();
+    };
+
+    window.disableForm = function () {
+    isRecaptchaPassed = false;
+    updateSubmitBtn();
+    };
+
+    function updateSubmitBtn() {
+    const consentCheck = document.getElementById('privacyConsent');
+    const submitBtn = document.getElementById('submitBtn');
+    if (consentCheck.checked && isRecaptchaPassed) {
+        submitBtn.disabled = false;
+    } else {
+        submitBtn.disabled = true;
+    }
+    }
+
+    // Bootstrap Validation
+    (function () {
+    'use strict';
+    const form = document.getElementById('contact-form');
+    if (form) {
+        form.addEventListener(
+        'submit',
+        function (event) {
+            if (!form.checkValidity() || !isRecaptchaPassed) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        },
+        false,
+        );
+    }
+    })();
+</script>
+</body>
+</html>

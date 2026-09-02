@@ -1,0 +1,57 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  item: CollectionEntry<'product'>;
+}
+
+const { item } = Astro.props as Props;
+const productPath = `/product/${item.id.replace(/\.md$/, '')}`;
+const legalPath = `/legal/${item.data.legalSlug}`;
+---
+
+<div class="col-md-6 col-lg-4 product-item" data-category={item.data.category}>
+  <div class="card product-card p-4 bg-white">
+    <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
+      <span class="badge border app-status-badge bg-dark text-light">
+        {item.data.category}
+      </span>
+      <span class="text-muted small text-end">
+        <span class="fw-semibold text-uppercase">LUD:</span> {item.data.lastUpdated}
+      </span>
+    </div>
+
+    <h3 class="h6 fw-bold text-dark mb-1">{item.data.title}</h3>
+    <p class="text-secondary small mb-2">{item.data.subtitle}</p>
+
+    <div class="border-top pt-3 mt-auto d-flex flex-column gap-2">
+      <a href={productPath} class="doc-link-item">
+        <span class="fw-semibold d-inline-flex align-items-center gap-1.5">
+          <i class="bi bi-file-earmark-text text-primary me-1"></i>
+          プロダクト紹介
+        </span>
+        <i class="bi bi-arrow-right text-muted small"></i>
+      </a>
+
+      <a href={legalPath} class="doc-link-item">
+        <span class="fw-semibold d-inline-flex align-items-center gap-1.5">
+          <i class="bi bi-shield-check text-success me-1"></i>
+          プライバシーポリシー等
+        </span>
+        <i class="bi bi-arrow-right text-muted small"></i>
+      </a>
+
+      {item.data.storeUrl && (
+        <a
+          href={item.data.storeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-outline-primary btn-sm w-100 py-2 rounded-3 fw-bold d-inline-flex align-items-center justify-content-center gap-1.5"
+        >
+          <i class="bi bi-box-arrow-up-right"></i>
+          <span>{item.data.storeLabel}</span>
+        </a>
+      )}
+    </div>
+  </div>
+</div>

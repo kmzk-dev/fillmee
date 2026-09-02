@@ -1,0 +1,143 @@
+---
+interface Props {
+  applicationName: string;
+  formId?: string;
+}
+
+const { applicationName, formId = 'contactForm' } = Astro.props as Props;
+const defaultSubject = `【${applicationName}】お問い合わせ`;
+---
+
+<div class="card border-0 shadow-sm bg-white rounded-4 p-4 p-md-5 mt-5">
+  <div class="mb-4 text-start">
+    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">Contact</span>
+    <h2 class="fw-bold text-dark mt-2 mb-1">お問い合わせ</h2>
+    <p class="lead text-secondary fs-6 mb-0" style="max-width: 800px;">
+      事前に<a href="#" class="alert-link fw-bold">プライバシーポリシー</a>をご確認の上、ご同意いただける場合のみお問い合わせください。
+    </p>
+  </div>
+
+  <form
+    id={formId}
+    class="row g-3 needs-validation contact-form"
+    method="POST"
+    action="https://fillmee.bambina.jp/api/from-githubpages/dev-fillmee-mailsend-api.php"
+    novalidate
+    data-app-name={applicationName}
+  >
+    <div class="col-12 text-start">
+      <div class="form-check text-start">
+        <input class="form-check-input js-consent-check" type="checkbox" id={`${formId}-privacyConsent`} required onchange="toggleFormInputs(this.closest('form'))">
+        <label class="form-check-label small" for={`${formId}-privacyConsent`}>
+          プライバシーポリシーと利用規約に同意します
+        </label>
+        <div class="invalid-feedback text-start">同意が必要です。</div>
+      </div>
+    </div>
+
+    <div class="col-md-6 text-start">
+      <label for={`${formId}-inputName`} class="form-label small fw-bold">お名前 <span class="text-danger">*</span></label>
+      <input type="text" class="form-control js-conditional-input" id={`${formId}-inputName`} name="inputName" placeholder="山田 太郎" required disabled>
+      <div class="invalid-feedback text-start">お名前を入力してください。</div>
+    </div>
+
+    <div class="col-md-6 text-start">
+      <label for={`${formId}-inputCompany`} class="form-label small fw-bold">所属企業・組織名</label>
+      <input type="text" class="form-control js-conditional-input" id={`${formId}-inputCompany`} name="inputCompany" placeholder="株式会社〇〇" disabled>
+    </div>
+
+    <div class="col-12 text-start">
+      <label for={`${formId}-inputEmail`} class="form-label small fw-bold">メールアドレス <span class="text-danger">*</span></label>
+      <input type="email" class="form-control js-conditional-input" id={`${formId}-inputEmail`} name="inputEmail" placeholder="name@example.com" required disabled>
+      <div class="invalid-feedback text-start">有効なメールアドレスを入力してください。</div>
+    </div>
+
+    <div class="col-12 text-start">
+      <label for={`${formId}-inputSubject`} class="form-label small fw-bold">件名 <span class="text-danger">*</span></label>
+      <input type="text" class="form-control js-conditional-input" id={`${formId}-inputSubject`} name="inputSubject" value={defaultSubject} placeholder="例：業務自動化のご相談、お見積りについて 等" required disabled readonly>
+      <div class="invalid-feedback text-start">件名を入力してください。</div>
+    </div>
+
+    <div class="col-12 text-start">
+      <label for={`${formId}-inputMessage`} class="form-label small fw-bold">内容 <span class="text-danger">*</span></label>
+      <textarea class="form-control js-conditional-input" id={`${formId}-inputMessage`} name="inputMessage" rows="5" placeholder="お問い合わせ内容を詳しくご記入ください" required disabled></textarea>
+      <div class="invalid-feedback text-start">内容を入力してください。</div>
+    </div>
+
+    <div class="col-12 mb-3 text-start" id={`${formId}-recaptcha-wrapper`}>
+      <div
+        class="g-recaptcha"
+        data-sitekey="6LfiPeIrAAAAAEasdYDTJ3JruituyplArcFJvl9e"
+        data-callback="enableForm"
+        data-expired-callback="disableForm"
+      ></div>
+    </div>
+
+    <div class="col-12 text-start mt-3">
+      <button type="submit" id={`${formId}-submitBtn`} class="btn btn-primary btn-lg px-5 js-conditional-input" disabled>
+        <i class="bi bi-send-fill me-2"></i> 送信
+      </button>
+    </div>
+  </form>
+</div>
+
+<script is:inline>
+  (function () {
+    function setSubjectValue(form) {
+      const subjectInput = form.querySelector('.js-conditional-input[id$="-inputSubject"]');
+      if (!subjectInput) return;
+      if (!subjectInput.value || subjectInput.value.trim() === '') {
+        subjectInput.value = form.dataset.appName ? `【${form.dataset.appName}】お問い合わせ` : 'お問い合わせ';
+      }
+    }
+
+    function updateSubmitBtn(form) {
+      const consentCheck = form.querySelector('.js-consent-check');
+      const submitBtn = form.querySelector('[type="submit"]');
+      if (!consentCheck || !submitBtn) return;
+      submitBtn.disabled = !(consentCheck.checked && window.__contactFormRecaptchaPassed === true);
+    }
+
+    window.toggleFormInputs = function (form) {
+      if (!form) return;
+
+      const consentCheck = form.querySelector('.js-consent-check');
+      const inputs = form.querySelectorAll('.js-conditional-input');
+      const isChecked = consentCheck && consentCheck.checked;
+
+      inputs.forEach((input) => {
+        if (input.type !== 'submit' && input.id !== 'submitBtn') {
+          input.disabled = !isChecked;
+          if (input.id && input.id.endsWith('-inputSubject')) {
+            input.readOnly = !isChecked;
+          }
+        }
+      });
+
+      updateSubmitBtn(form);
+    };
+
+    window.enableForm = function () {
+      window.__contactFormRecaptchaPassed = true;
+      document.querySelectorAll('.contact-form').forEach((form) => updateSubmitBtn(form));
+    };
+
+    window.disableForm = function () {
+      window.__contactFormRecaptchaPassed = false;
+      document.querySelectorAll('.contact-form').forEach((form) => updateSubmitBtn(form));
+    };
+
+    document.querySelectorAll('.contact-form').forEach((form) => {
+      setSubjectValue(form);
+      window.toggleFormInputs(form);
+
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+          form.classList.add('was-validated');
+        }
+      }, false);
+    });
+  })();
+</script>

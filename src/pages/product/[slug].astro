@@ -1,0 +1,114 @@
+---
+import { getCollection, render } from 'astro:content';
+import ContactForm from '../../components/ContactForm.astro';
+import '../../styles/global.css';
+
+export async function getStaticPaths() {
+  const products = await getCollection('product');
+  return products.map(entry => ({
+    params: { slug: entry.id.replace(/\.md$/, '') },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{entry.data.title} - 使い方＆ドキュメント</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-light text-start">
+  <header class="sticky-top bg-white border-bottom border-light-subtle shadow-sm">
+    <div class="container" style="max-width: 960px;">
+      <nav class="navbar navbar-expand-md p-0">
+        <div class="container-fluid px-0 py-2">
+          <a href="/" class="btn btn-outline-secondary btn-sm rounded-pill d-none d-md-inline-flex">
+            <i class="bi bi-arrow-left me-1"></i> プロダクト一覧に戻る
+          </a>
+
+          <button
+            class="navbar-toggler border-0 ms-auto"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#productHeaderMenu"
+            aria-controls="productHeaderMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="productHeaderMenu">
+            <ul class="navbar-nav ms-auto align-items-md-center gap-2 py-2 py-md-0">
+              <li class="nav-item d-md-none">
+                <a href="/" class="nav-link fw-semibold text-dark">
+                  <i class="bi bi-arrow-left me-1"></i> プロダクト一覧に戻る
+                </a>
+              </li>
+              <li class="nav-item w-100 w-md-auto">
+                <a href={`/legal/${entry.data.legalSlug}`} class="btn btn-outline-success btn-sm rounded-pill w-100 w-md-auto py-2 px-3 d-inline-flex align-items-center justify-content-center text-nowrap">
+                  <i class="bi bi-shield-check me-1"></i> プライバシーポリシー
+                </a>
+              </li>
+              {entry.data.storeUrl && (
+                <li class="nav-item w-100 w-md-auto">
+                  <a href={entry.data.storeUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm rounded-pill px-3 w-100 w-md-auto py-2 d-inline-flex align-items-center justify-content-center text-nowrap">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> ストアを開く
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-5">
+    <div class="container" style="max-width: 800px;">
+      <div class="card p-4 p-md-5 rounded-4 border-0 shadow-sm bg-white mb-4">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div>
+            <h1 class="h3 fw-bold text-dark mb-1">{entry.data.title}</h1>
+            <p class="text-muted mb-0">{entry.data.subtitle}</p>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          {entry.data.category === 'android' && (
+            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-2 fw-semibold">
+              <i class="bi bi-android2 me-1"></i> Android
+            </span>
+          )}
+          {entry.data.category === 'chrome' && (
+            <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 fw-semibold">
+              <i class="bi bi-browser-chrome me-1"></i> Chrome拡張
+            </span>
+          )}
+          {entry.data.category === 'web' && (
+            <span class="badge rounded-pill bg-info-subtle text-info border border-info-subtle px-3 py-2 fw-semibold">
+              <i class="bi bi-globe2 me-1"></i> Web / ツール
+            </span>
+          )}
+        </div>
+
+        <div class="border-top pt-4 markdown-body">
+          <!-- Markdownの本文がここにHTMLとして自動展開されます -->
+          <Content />
+        </div>
+      </div>
+
+      <ContactForm applicationName={entry.data.title} formId={`${entry.id.replace(/\.md$/, '')}-contact-form`} />
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
