@@ -1,7 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
+import ContactForm from '../components/ContactForm.astro';
+import PrivacyPolicyModal from '../components/PrivacyPolicyModal.astro';
 import ProductCard from '../components/ProductCard.astro';
-import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import '../style/global.css';
 
 const products = await getCollection('product');
 products.sort((a, b) => new Date(b.data.lastUpdated).getTime() - new Date(a.data.lastUpdated).getTime());
@@ -12,249 +15,89 @@ products.sort((a, b) => new Date(b.data.lastUpdated).getTime() - new Date(a.data
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DEV.FILLMEE.COM - プロダクトハブ & ドキュメント</title>
-    <meta name="description" content="FILLMEEが開発・公開しているAndroidアプリ、Chrome拡張機能、業務効率化ツールのプロダクト一覧・使い方・FAQ・プライバシーポリシーのハブです。" />
+    <title>FILLMEE（フィルミー）- 公式ポータルサイト</title>
+    <meta name="description" content="FILLMEE（フィルミー）の公式ポータルサイトです。身近なアプリ開発、小さな自動化、システム連携、QA・IT支援を提供します。" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
 
   <body class="d-flex flex-column min-vh-100 text-start">
-    <header class="sticky-top bg-white border-bottom border-light-subtle shadow-sm z-3">
-      <nav class="navbar navbar-expand-lg py-2">
-        <div class="container">
-          <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-            <div class="d-flex align-items-center justify-content-center bg-primary text-white fw-bold rounded-3" style="width: 38px; height: 38px; font-size: 1.2rem;">F</div>
-            <div class="d-flex flex-column text-start">
-              <div class="d-flex align-items-center gap-1.5">
-                <span class="fw-bolder fs-5 text-dark lh-1">DEV.FILLMEE</span>
-              </div>
-              <span class="text-muted fw-normal" style="font-size: 10px;">プロダクト＆ドキュメントハブ</span>
+    <SiteHeader variant="home" />
+
+    <main id="top" class="flex-grow-1">
+      <section class="section-padding hero-section border-bottom border-light-subtle"><div class="container"><div class="row align-items-center"><div class="col-lg-9 col-xl-8">
+        <div class="hero-badge mb-3"><span class="bg-primary rounded-circle d-inline-block" style="width: 8px; height: 8px;"></span> FILLMEE 公式ポータルサイト</div>
+        <h1 class="display-6 fw-bold text-dark tracking-tight lh-sm mb-3">日々の「ちょっと不便」を、<br />デジタルで「ちょうどよく」。<br /><span class="text-brand">身近なアプリ開発 ＆ 小さな自動化</span></h1>
+        <p class="lead text-secondary mb-4 fs-6 lh-lg">FILLMEE（フィルミー）は、日々の生活をちょっと快適にするスマホアプリやツールを開発しています。<br />「ここだけ自動化したい」「手作業を少しラクにしたい」といったお困りごとの解消まで、身近なデジタル技術でお手伝いします。</p>
+        <div class="d-flex flex-wrap gap-2 pt-1"><a href="#products" class="btn btn-primary btn-lg fw-bold px-4 rounded-3 d-inline-flex align-items-center gap-2"><span>アプリを見る</span><i class="bi bi-arrow-down-short fs-5"></i></a><a href="#solutions" class="btn btn-outline-secondary btn-lg fw-semibold px-4 rounded-3 d-inline-flex align-items-center gap-1"><span>相談できること</span><i class="bi bi-arrow-down-short fs-5"></i></a></div>
+      </div></div></div></section>
+
+      <section id="products" class="section-padding bg-light border-bottom border-light-subtle"><div class="container">
+        <div class="mb-4"><span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill fw-bold small">アプリを見る</span><h2 class="fw-bold text-dark mt-2 mb-1">個人プロダクト</h2><p class="text-secondary small mb-0">「自分が本当に使いたいもの」を形にしてお届けしています。</p></div>
+        <div class="d-flex flex-wrap gap-2 mb-4" role="group" aria-label="プロダクトのカテゴリ"><button type="button" class="filter-btn active" data-filter="all">すべて</button><button type="button" class="filter-btn" data-filter="android"><i class="bi bi-google-play me-1"></i>Android</button><button type="button" class="filter-btn" data-filter="chrome"><i class="bi bi-browser-chrome me-1"></i>Chrome拡張</button><button type="button" class="filter-btn" data-filter="web"><i class="bi bi-tools me-1"></i>WEBアプリ等</button></div>
+        <div class="row g-4 text-start" id="productGrid">{products.map((item) => <ProductCard item={item} />)}</div><div id="noProducts" class="d-none text-center py-5 mt-4 rounded-4 border border-dashed border-secondary-subtle bg-white"><div class="text-secondary fw-semibold">現在、公開中のプロダクトはありません。</div></div>
+      </div></section>
+
+      <section id="solutions" class="section-padding bg-white border-bottom border-light-subtle"><div class="container"><div class="mb-4"><span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill fw-bold small">相談できること</span><h2 class="fw-bold text-dark mt-2 mb-1">現在、提供中のサービス</h2><p class="text-secondary small mb-0">「普段の業務をラクにしたい」現場のお悩みを解決します。</p></div><div class="row g-4 solutions-grid">
+        <div class="col-md-6 col-lg-4 solutions-item">
+            <div class="card rounded-4 p-4 bg-light h-100">
+                <h3 class="h6 fw-bold mb-1" style="color: #7e22ce;"><i class="bi bi-slack me-1"></i>Deno Slack SDK</h3>
+                <p class="text-dark small fw-semibold mb-3">ボタンクリックで片付く仕組みづくり</p>
+                <p class="text-secondary small lh-lg mb-0">コミュニケーションツールSlackで承認や通知など、誰でも直感的に使えるSlackボットを作成します。</p>
             </div>
-          </a>
-
-          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#devNavbarContent" aria-controls="devNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="devNavbarContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-3 text-start">
-              <li class="nav-item"><a class="nav-link text-secondary fw-semibold py-2" href="#products">プロダクト一覧</a></li>
-              <li class="nav-item"><a class="nav-link text-secondary fw-semibold py-2" href="#guidelines">開発方針</a></li>
-              <li class="nav-item"><a class="nav-link text-secondary fw-semibold py-2" href="#faq">FAQ</a></li>
-              <li class="nav-item ms-lg-2">
-                <a href="https://fillmee.com" class="btn btn-outline-primary btn-sm px-3 py-1.5 rounded-pill d-inline-flex align-items-center gap-1.5 fw-bold">
-                  <i class="bi bi-arrow-left"></i>
-                  <span>fillmee.com（公式ポータル）へ</span>
-                </a>
-              </li>
-            </ul>
+        </div>
+        <div class="col-md-6 col-lg-4 solutions-item">
+          <div class="card rounded-4 p-4 bg-light h-100">
+            <h3 class="h6 fw-bold mb-1" style="color: #0284c7;"><i class="bi bi-cloud-check-fill me-1"></i>Salesforce Flow</h3>
+            <p class="text-dark small fw-semibold mb-3">あとから自分たちでも直しやすい設計</p>
+            <p class="text-secondary small lh-lg mb-0">社内で引き継ぎやすいFlowを主軸に運用しやすい自動化を実現します。コード（Apex）は最小限に抑えます。</p>
           </div>
         </div>
-      </nav>
-    </header>
-
-    <main class="flex-grow-1">
-      <section class="sub-hero py-5 text-start">
-        <div class="container py-3 py-lg-4">
-          <div class="row align-items-center">
-            <div class="col-lg-10 col-xl-9">
-              <div class="hero-badge mb-3">
-                <i class="bi bi-code-slash text-primary"></i>
-                <span>DEV.FILLMEE.COM</span>
-              </div>
-
-              <h1 class="display-6 fw-bold text-dark tracking-tight lh-sm mb-3" style="font-size: clamp(2.1rem, 4vw, 4.2rem); letter-spacing: -0.06em;">
-                「自分がほしい」から生まれた、<br />
-                <span class="text-brand">小さなアプリ・ツールの公開ハブ</span>
-              </h1>
-
-              <p class="lead text-secondary fs-6 lh-lg mb-4" style="font-size: clamp(1rem, 1.2vw, 1.4rem) !important;">
-                日々の暮らし中で「こんな機能があったら便利なのに」と感じて開発した、Androidアプリ・Chrome拡張機能・自動化ツールのドキュメントポータルです。<br />
-                各アプリの使い方・プライバシーポリシーをご確認いただけます。
-              </p>
-            </div>
+        <div class="col-md-6 col-lg-4 solutions-item">
+          <div class="card rounded-4 p-4 bg-light h-100">
+            <h3 class="h6 fw-bold mb-1" style="color: #d97706;"><i class="bi bi-google me-1"></i>Google Workspace</h3>
+            <p class="text-dark small fw-semibold mb-3">日々の手作業を少しずつゼロへ</p>
+            <p class="text-secondary small lh-lg mb-0">メールの一括送信や転記作業など、GoogleAppsScript・GoogleCloudで標準機能では足りない悩みを解消します。</p>
           </div>
         </div>
-      </section>
-
-      <section id="products" class="section-padding bg-light border-bottom border-light-subtle">
-        <div class="container">
-          <div class="text-start">
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">プロダクト一覧</span>
-            <h2 class="fw-bold text-dark mt-2 mb-1" style="font-size: clamp(2rem, 3vw, 3.25rem); letter-spacing: -0.05em;">現在、公開中のプロダクト一覧</h2>
-            <p class="text-secondary small mb-0">各プロダクトの個別の紹介・利用方法・FAQやポリシーへ移動します。</p>
-          </div>
-
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-4 gap-3 my-3">
-            <div class="d-flex flex-wrap gap-2" role="group" aria-label="Category Filters">
-              <button type="button" class="filter-btn active" data-filter="all">すべて</button>
-              <button type="button" class="filter-btn" data-filter="android"><i class="bi bi-google-play me-1"></i>Android</button>
-              <button type="button" class="filter-btn" data-filter="chrome"><i class="bi bi-browser-chrome me-1"></i>Chrome拡張</button>
-              <button type="button" class="filter-btn" data-filter="web"><i class="bi bi-tools me-1"></i>WEBアプリ等</button>
-            </div>
-          </div>
-
-          <div class="row g-4 text-start" id="productGrid">
-            {products.map((item) => <ProductCard item={item} />)}
-          </div>
-
-          <div id="noProducts" class="d-none text-center py-5 mt-4 rounded-4 border border-dashed border-secondary-subtle bg-white">
-            <div class="text-secondary fw-semibold">現在、公開中のプロダクトはありません。</div>
+        <div class="col-md-6 col-lg-4 solutions-item">
+          <div class="card rounded-4 p-4 bg-light h-100">
+            <h3 class="h6 fw-bold mb-1" style="color: #4338ca;"><i class="bi bi-diagram-3-fill me-1"></i>API</h3>
+            <p class="text-dark small fw-semibold mb-3">異なるシステム間の連携</p>
+            <p class="text-secondary small lh-lg mb-0">「あっちに入力したら、こっちにも反映」という橋渡し（API）を構築し、異なるシステム間の連携を図ります。</p>
           </div>
         </div>
-      </section>
-
-      <section id="guidelines" class="section-padding bg-white border-bottom border-light-subtle">
-        <div class="container">
-          <div class="mb-4 text-start">
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">開発方針</span>
-            <h2 class="fw-bold text-dark mt-2 mb-1" style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); letter-spacing: -0.04em;">プロダクト共通の取り組み</h2>
-            <p class="text-secondary small mb-0">個人開発プロダクトの公開・更新およびサポート基準についてご案内します。</p>
-          </div>
-
-          <div class="row g-4 text-start">
-            <div class="col-md-4">
-              <div class="card p-4 rounded-4 bg-light h-100 border-light-subtle">
-                <div class="d-flex align-items-center gap-2 mb-2 text-dark fw-bold"><i class="bi bi-person-heart text-primary fs-5"></i><span>自分が使いたいものを形に</span></div>
-                <p class="text-secondary small lh-lg mb-0">開発者自身が日常で愛用し、本当に欲しいと感じた機能のみを過不足なく実装・提供しています。</p>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card p-4 rounded-4 bg-light h-100 border-light-subtle">
-                <div class="d-flex align-items-center gap-2 mb-2 text-dark fw-bold"><i class="bi bi-shield-shaded text-success fs-5"></i><span>プライバシー最優先・最小収集</span></div>
-                <p class="text-secondary small lh-lg mb-0">利用者の過度なトラッキングや不要な個人情報の収集は行いません。各アプリに必要な権限とその理由を明記しています。</p>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card p-4 rounded-4 bg-light h-100 border-light-subtle">
-                <div class="d-flex align-items-center gap-2 mb-2 text-dark fw-bold"><i class="bi bi-arrow-repeat text-info fs-5"></i><span>ドキュメントの迅速な同期</span></div>
-                <p class="text-secondary small lh-lg mb-0">各ツールのドキュメントは内部で一元管理され、アプリのアップデートに合わせて常に最新仕様が素早く同期されます。</p>
-              </div>
-            </div>
+        <div class="col-md-6 col-lg-4 solutions-item">
+          <div class="card rounded-4 p-4 bg-light h-100">
+            <h3 class="h6 fw-bold mb-1" style="color: #e11d48;"><i class="bi bi-patch-check-fill me-1"></i>使いやすさ・バグの事前チェック</h3>
+            <p class="text-dark small fw-semibold mb-3">使い始める前の不安を解消</p>
+            <p class="text-secondary small lh-lg mb-0">ターゲットユーザーの体験を想定して、不具合や分かりにくい箇所を事前に洗い出し・レポートします。</p>
           </div>
         </div>
-      </section>
+      </div></div></section>
 
-      <section id="faq" class="section-padding bg-light">
-        <div class="container text-start">
-          <div class="mb-4 text-start">
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">FAQ</span>
-            <h2 class="fw-bold text-dark mt-2 mb-1" style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); letter-spacing: -0.04em;">よくあるご質問</h2>
-            <p class="text-secondary small mb-0">各プロダクトの利用にあたって寄せられる共通のお問い合わせです。</p>
-          </div>
+      <section id="about" class="section-padding bg-light border-bottom border-light-subtle"><div class="container"><div class="mb-4"><span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill fw-bold small">事業概要</span><h2 class="fw-bold text-dark mt-2 mb-1">事業者概要</h2><p class="text-secondary small mb-0">特定商取引法およびGoogle Playデベロッパー登録要件に基づく事業者情報です。</p></div><div class="card border-light-subtle shadow-sm rounded-4 overflow-hidden bg-white"><div class="table-responsive"><table class="table table-bordered mb-0 align-middle small"><tbody>
+        <tr><th class="bg-light text-secondary fw-bold py-3 px-4" style="width: 25%;">屋号名</th><td class="py-3 px-4 fw-bold text-dark">FILLMEE（日本語表記: フィルミー）</td></tr><tr><th class="bg-light text-secondary fw-bold py-3 px-4">事業形態</th><td class="py-3 px-4">個人事業主</td></tr><tr><th class="bg-light text-secondary fw-bold py-3 px-4">所在地</th><td class="py-3 px-4">〒150-0043<br />東京都渋谷区道玄坂1丁目10番8号 渋谷道玄坂東急ビル2F-C</td></tr><tr><th class="bg-light text-secondary fw-bold py-3 px-4">事業内容</th><td class="py-3 px-4">スマートフォンアプリ、ブラウザ拡張機能、Slack Bot、SaaS活用による業務自動化、API、システム連携、QAおよびIT担当者向け支援</td></tr><tr><th class="bg-light text-secondary fw-bold py-3 px-4">対応技術</th><td class="py-3 px-4">Python / TypeScript / JavaScript / Google Apps Script / PHP / Dart / Apex</td></tr><tr><th class="bg-light text-secondary fw-bold py-3 px-4">プライバシー規定</th><td class="py-3 px-4"><button type="button" class="btn btn-sm btn-link p-0 text-primary fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#privacyModal"><i class="bi bi-shield-lock-fill me-1"></i>個人情報保護方針を表示</button><p>アプリごとのプライバシーポリシーは各プロダクトページを参照してください。</p></td></tr>
+      </tbody></table></div></div></div></section>
 
-          <div class="row justify-content-center">
-            <div class="col-lg-11 col-xl-10">
-              <div class="accordion faq-accordion" id="devFaqAccordion">
-                <div class="accordion-item border-light-subtle">
-                  <h3 class="accordion-header" id="faqHeading1">
-                    <button class="accordion-button fw-bold text-dark py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1" aria-expanded="true" aria-controls="faqCollapse1">
-                      Q. アプリの不具合や機能改善の要望はどこから連絡すればよいですか？
-                    </button>
-                  </h3>
-                  <div id="faqCollapse1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#devFaqAccordion">
-                    <div class="accordion-body text-secondary small lh-lg">
-                      各プロダクト詳細ページ下部にあるお問い合わせフォーム、またはメインポータルの <a href="https://fillmee.com#contact" class="text-brand fw-bold">お問い合わせフォーム</a> よりご連絡いただけます。
+      <section id="contact" class="section-padding bg-white">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-xl-9">
+                        <ContactForm applicationName="FILLMEE" formId="portal-contact-form" />
                     </div>
-                  </div>
                 </div>
-
-                <div class="accordion-item border-light-subtle">
-                  <h3 class="accordion-header" id="faqHeading2">
-                    <button class="accordion-button collapsed fw-bold text-dark py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2" aria-expanded="false" aria-controls="faqCollapse2">
-                      Q. 各アプリのプライバシーポリシーは個別に存在しますか？
-                    </button>
-                  </h3>
-                  <div id="faqCollapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#devFaqAccordion">
-                    <div class="accordion-body text-secondary small lh-lg">
-                      はい。FILLMEE全体の総合ポリシーとは別に、各アプリの個別ポリシー（/legal/*****）を公開しています。
-                    </div>
-                  </div>
-                </div>
-
-                <div class="accordion-item border-light-subtle">
-                  <h3 class="accordion-header" id="faqHeading3">
-                    <button class="accordion-button collapsed fw-bold text-dark py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3" aria-expanded="false" aria-controls="faqCollapse3">
-                      Q. 業務利用やカスタマイズの相談は可能ですか？
-                    </button>
-                  </h3>
-                  <div id="faqCollapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#devFaqAccordion">
-                    <div class="accordion-body text-secondary small lh-lg">
-                      はい。個別のご相談は <a href="https://fillmee.com#solutions" class="text-brand fw-bold">fillmee.com の相談窓口</a> にて受付けております。
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </section>
     </main>
-
-    <footer class="site-footer py-5 text-start">
-      <div class="container">
-        <div class="row gy-4 pb-4 border-bottom border-secondary">
-          <div class="col-md-6">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="text-white fw-bold fs-6">DEV.FILLMEE.COM</span>
-              <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 0.68rem; padding: 0.2rem 0.55rem; border-radius: 6px; letter-spacing: 0.05em;">HUB</span>
-            </div>
-            <p class="small text-white-50 mb-0">個人事業主 FILLMEE（フィルミー）公式プロダクト＆ドキュメントポータル</p>
-          </div>
-
-          <div class="col-md-6 d-flex justify-content-md-end justify-content-start">
-            <ul class="nav justify-content-start gap-3 small align-items-center flex-wrap">
-              <li class="nav-item"><a href="https://fillmee.com" class="nav-link px-0 text-white-50 text-decoration-none"><i class="bi bi-house-door me-1"></i>公式ポータル（fillmee.com）</a></li>
-              <li class="nav-item"><a href="https://fillmee.com#about" class="nav-link px-0 text-white-50 text-decoration-none">事業者概要</a></li>
-              <li class="nav-item"><a href="https://fillmee.com#contact" class="nav-link px-0 text-white-50 text-decoration-none">お問い合わせ</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center pt-3 small text-white-50 gap-2">
-          <div>〒150-0043 東京都渋谷区道玄坂1丁目10番8号 渋谷道玄坂東急ビル2F-C</div>
-          <div>&copy; <span id="currentYear"></span> FILLMEE. All Rights Reserved.</div>
-        </div>
-      </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      const currentYear = document.getElementById('currentYear');
-      if (currentYear) currentYear.textContent = new Date().getFullYear();
-
-      const filterButtons = document.querySelectorAll('.filter-btn');
-      const productItems = document.querySelectorAll('.product-item');
-      const noProducts = document.getElementById('noProducts');
-
-      const applyFilter = (filter) => {
-        let visibleCount = 0;
-
-        productItems.forEach((item) => {
-          const category = item.getAttribute('data-category');
-          const shouldShow = filter === 'all' || category === filter;
-          item.classList.toggle('d-none', !shouldShow);
-          if (shouldShow) visibleCount += 1;
-        });
-
-        if (noProducts) {
-          noProducts.classList.toggle('d-none', visibleCount > 0);
-        }
-      };
-
-      filterButtons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          filterButtons.forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
-
-          const filter = btn.getAttribute('data-filter');
-          applyFilter(filter);
-        });
-      });
-
-      applyFilter('all');
++
+  <PrivacyPolicyModal /><footer class="bg-dark text-white-50 py-5 text-start"><div class="container"><div class="row gy-4 pb-4 border-bottom border-secondary"><div class="col-md-6"><div class="d-flex align-items-center gap-2 mb-2"><span class="bg-primary text-white fw-bold rounded-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;">F</span><span class="text-white fw-bold fs-6">FILLMEE</span></div><p class="small text-white-50 mb-0">個人事業主 FILLMEE 公式ポータルサイト</p></div><div class="col-md-6 d-flex justify-content-md-end"><ul class="nav gap-3 small flex-wrap"><li class="nav-item"><a href="#about" class="nav-link px-0 text-decoration-none">事業者概要</a></li><li class="nav-item"><a href="#contact" class="nav-link px-0 text-decoration-none">お問い合わせ</a></li><li class="nav-item"><button type="button" class="nav-link px-0 text-decoration-none bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#privacyModal">プライバシーポリシー</button></li></ul></div></div><div class="d-flex flex-column flex-md-row justify-content-between pt-3 small gap-2"><div>〒150-0043 東京都渋谷区道玄坂1丁目10番8号 渋谷道玄坂東急ビル2F-C</div><div>&copy; <span id="currentYear"></span> FILLMEE. All Rights Reserved.</div></div></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script is:inline>
+      const currentYear = document.getElementById('currentYear'); if (currentYear) currentYear.textContent = new Date().getFullYear();
+      const filterButtons = document.querySelectorAll('.filter-btn'); const productItems = document.querySelectorAll('.product-item'); const noProducts = document.getElementById('noProducts');
+      const applyFilter = (filter) => { let visibleCount = 0; productItems.forEach((item) => { const visible = filter === 'all' || item.getAttribute('data-category') === filter; item.classList.toggle('d-none', !visible); if (visible) visibleCount += 1; }); if (noProducts) noProducts.classList.toggle('d-none', visibleCount > 0); };
+      filterButtons.forEach((button) => button.addEventListener('click', () => { filterButtons.forEach((item) => item.classList.remove('active')); button.classList.add('active'); applyFilter(button.getAttribute('data-filter')); })); applyFilter('all');
     </script>
   </body>
 </html>

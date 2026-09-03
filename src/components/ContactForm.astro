@@ -13,7 +13,7 @@ const defaultSubject = `【${applicationName}】お問い合わせ`;
     <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold small">Contact</span>
     <h2 class="fw-bold text-dark mt-2 mb-1">お問い合わせ</h2>
     <p class="lead text-secondary fs-6 mb-0" style="max-width: 800px;">
-      事前に<a href="#" class="alert-link fw-bold">プライバシーポリシー</a>をご確認の上、ご同意いただける場合のみお問い合わせください。
+      事前に<button type="button" class="btn btn-link alert-link fw-bold p-0 align-baseline" data-bs-toggle="modal" data-bs-target="#privacyModal">個人情報保護方針</button>をご確認の上、お問い合わせください。
     </p>
   </div>
 
@@ -21,7 +21,7 @@ const defaultSubject = `【${applicationName}】お問い合わせ`;
     id={formId}
     class="row g-3 needs-validation contact-form"
     method="POST"
-    action="https://fillmee.bambina.jp/api/from-githubpages/dev-fillmee-mailsend-api.php"
+    action="https://fillmee.bambina.jp/api/from-githubpages/fillmee-mailsend-api.php"
     novalidate
     data-app-name={applicationName}
   >
@@ -29,7 +29,7 @@ const defaultSubject = `【${applicationName}】お問い合わせ`;
       <div class="form-check text-start">
         <input class="form-check-input js-consent-check" type="checkbox" id={`${formId}-privacyConsent`} required onchange="toggleFormInputs(this.closest('form'))">
         <label class="form-check-label small" for={`${formId}-privacyConsent`}>
-          プライバシーポリシーと利用規約に同意します
+          個人情報保護方針に同意します
         </label>
         <div class="invalid-feedback text-start">同意が必要です。</div>
       </div>
@@ -64,10 +64,10 @@ const defaultSubject = `【${applicationName}】お問い合わせ`;
       <div class="invalid-feedback text-start">内容を入力してください。</div>
     </div>
 
-    <div class="col-12 mb-3 text-start" id={`${formId}-recaptcha-wrapper`}>
+    <div class="col-12 mb-3 text-start recaptcha-wrapper" id={`${formId}-recaptcha-wrapper`} aria-disabled="true">
       <div
         class="g-recaptcha"
-        data-sitekey="6LfiPeIrAAAAAEasdYDTJ3JruituyplArcFJvl9e"
+        data-sitekey="6LcwFaYtAAAAAK0GdVahESKO6lQdA2MDuLBaZDxy"
         data-callback="enableForm"
         data-expired-callback="disableForm"
       ></div>
@@ -81,6 +81,15 @@ const defaultSubject = `【${applicationName}】お問い合わせ`;
   </form>
 </div>
 
+<div class="toast-container position-fixed top-0 end-0 p-3" aria-live="polite" aria-atomic="true">
+  <div id={`${formId}-toast`} class="toast" role="status">
+    <div class="d-flex">
+      <div class="toast-body"></div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="閉じる"></button>
+    </div>
+  </div>
+</div>
+
 <script is:inline>
   (function () {
     function setSubjectValue(form) {
@@ -91,11 +100,62 @@ const defaultSubject = `【${applicationName}】お問い合わせ`;
       }
     }
 
+    function getRequiredFields(form) {
+      return [...form.querySelectorAll('[required]:not(.js-consent-check)')];
+    }
+
+    function hasValidRequiredFields(form) {
+      return getRequiredFields(form).every((field) => field.checkValidity());
+    }
+
     function updateSubmitBtn(form) {
       const consentCheck = form.querySelector('.js-consent-check');
       const submitBtn = form.querySelector('[type="submit"]');
       if (!consentCheck || !submitBtn) return;
-      submitBtn.disabled = !(consentCheck.checked && window.__contactFormRecaptchaPassed === true);
+      submitBtn.disabled = !(hasValidRequiredFields(form) && window.__contactFormRecaptchaPassed === true);
+    }
+
+    function showToast(form, message, isSuccess) {
+      const toastElement = document.getElementById(`${form.id}-toast`);
+      if (!toastElement || !window.bootstrap?.Toast) return;
+      const body = toastElement.querySelector('.toast-body');
+      body.textContent = message;
+      toastElement.classList.toggle('text-bg-success', isSuccess);
+      toastElement.classList.toggle('text-bg-danger', !isSuccess);
+      window.bootstrap.Toast.getOrCreateInstance(toastElement, { delay: 3000 }).show();
+    }
+
+    async function readResponse(response) {
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) return response.json();
+      const text = await response.text();
+      try {
+        return JSON.parse(text);
+      } catch {
+        return { message: text };
+      }
+    }
+
+    function isSuccessfulResponse(response, payload) {
+      if (!response.ok) return false;
+      if (payload && typeof payload === 'object') {
+        if (payload.success === false || payload.status === 'error' || payload.error) return false;
+        if (payload.success === true || payload.status === 'success') return true;
+      }
+      return true;
+    }
+
+    function resetForm(form) {
+      form.reset();
+      form.classList.remove('was-validated');
+      window.__contactFormRecaptchaPassed = false;
+      const recaptchaWrapper = form.querySelector('[id$="-recaptcha-wrapper"]');
+      if (recaptchaWrapper) {
+        recaptchaWrapper.classList.add('recaptcha-disabled');
+        recaptchaWrapper.setAttribute('aria-disabled', 'true');
+      }
+      if (window.grecaptcha?.reset) window.grecaptcha.reset();
+      window.toggleFormInputs(form);
     }
 
     window.toggleFormInputs = function (form) {
@@ -114,6 +174,16 @@ const defaultSubject = `【${applicationName}】お問い合わせ`;
         }
       });
 
+      const recaptchaReady = Boolean(isChecked && hasValidRequiredFields(form));
+      const recaptchaWrapper = form.querySelector('[id$="-recaptcha-wrapper"]');
+      if (recaptchaWrapper) {
+        recaptchaWrapper.classList.toggle('recaptcha-disabled', !recaptchaReady);
+        recaptchaWrapper.setAttribute('aria-disabled', String(!recaptchaReady));
+      }
+      if (!recaptchaReady && window.__contactFormRecaptchaPassed === true) {
+        window.__contactFormRecaptchaPassed = false;
+        if (window.grecaptcha?.reset) window.grecaptcha.reset();
+      }
       updateSubmitBtn(form);
     };
 
@@ -132,12 +202,51 @@ const defaultSubject = `【${applicationName}】お問い合わせ`;
       window.toggleFormInputs(form);
 
       form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
+        event.preventDefault();
+        if (!form.checkValidity() || !window.__contactFormRecaptchaPassed) {
           event.preventDefault();
           event.stopPropagation();
           form.classList.add('was-validated');
+          updateSubmitBtn(form);
+          return;
         }
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        })
+          .then(async (response) => {
+            const payload = await readResponse(response);
+            if (!isSuccessfulResponse(response, payload)) {
+              throw new Error(payload?.message || 'メールを送信できませんでした。');
+            }
+            showToast(form, 'メールを送信しました。', true);
+            resetForm(form);
+          })
+          .catch((error) => {
+            showToast(form, error.message || 'メールの送信に失敗しました。', false);
+            window.__contactFormRecaptchaPassed = false;
+            if (window.grecaptcha?.reset) window.grecaptcha.reset();
+            updateSubmitBtn(form);
+          });
       }, false);
+
+      form.addEventListener('input', () => window.toggleFormInputs(form));
     });
   })();
 </script>
+
+<style>
+  .recaptcha-wrapper {
+    min-height: 78px;
+  }
+
+  .recaptcha-disabled {
+    opacity: 0.55;
+    pointer-events: none;
+    user-select: none;
+  }
+</style>

@@ -92,6 +92,35 @@ main {
   padding-bottom: clamp(3rem, 5vw, 4.5rem);
 }
 
+.hero-section {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100svh - 66px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-image:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 255, 255, 0.88) 46%, rgba(255, 255, 255, 0.5) 100%),
+    url("../assets/hero-img.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.hero-section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 767.98px) {
+  .hero-section {
+    min-height: calc(100svh - 62px);
+    background-position: 68% center;
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.84) 58%, rgba(255, 255, 255, 0.62) 100%),
+      url("../assets/hero-img.jpg");
+  }
+}
+
 .hero-badge {
   display: inline-flex;
   align-items: center;

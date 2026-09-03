@@ -1,0 +1,57 @@
+---
+interface Props {
+  variant: 'home' | 'product' | 'legal';
+  productPath?: string;
+  legalPath?: string;
+  storeUrl?: string;
+}
+
+const { variant, productPath = '/', legalPath = '/', storeUrl } = Astro.props as Props;
+const menuId = `${variant}HeaderMenu`;
+const containerStyle = variant === 'home' ? undefined : 'max-width: 960px;';
+const navbarExpandClass = variant === 'home' ? 'navbar-expand-lg' : 'navbar-expand-md';
+---
+
+<header class="sticky-top bg-white border-bottom border-light-subtle shadow-sm z-3">
+  <div class="container" style={containerStyle}>
+    <nav class={`navbar ${navbarExpandClass} p-0`}>
+      <div class="container-fluid px-0 py-2">
+        {variant === 'home' ? (
+          <a class="navbar-brand d-flex align-items-center gap-2" href="#top">
+            <span class="d-flex align-items-center justify-content-center bg-primary text-white fw-bold rounded-3" style="width: 38px; height: 38px; font-size: 1.2rem;">F</span>
+            <span class="d-flex flex-column text-start"><span class="fw-bolder fs-5 text-dark lh-1">FILLMEE</span><span class="text-muted fw-normal" style="font-size: 10px;">フィルミー</span></span>
+          </a>
+        ) : (
+          <a href="/" class="btn btn-outline-secondary btn-sm rounded-pill d-none d-md-inline-flex">
+            <i class="bi bi-arrow-left me-1"></i> プロダクト一覧に戻る
+          </a>
+        )}
+
+        <button class="navbar-toggler border-0 ms-auto" type="button" data-bs-toggle="collapse" data-bs-target={`#${menuId}`} aria-controls={menuId} aria-expanded="false" aria-label="メニューを開く">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id={menuId}>
+          {variant === 'home' ? (
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-3 text-start">
+              <li class="nav-item"><a class="nav-link text-secondary fw-semibold py-2" href="#products">アプリを見る</a></li>
+              <li class="nav-item"><a class="nav-link text-secondary fw-semibold py-2" href="#solutions">相談できること</a></li>
+              <li class="nav-item"><a class="nav-link text-secondary fw-semibold py-2" href="#about">事業者概要</a></li>
+              <li class="nav-item"><a class="nav-link text-secondary fw-semibold py-2" href="#contact">お問い合わせ</a></li>
+            </ul>
+          ) : (
+            <ul class="navbar-nav ms-auto align-items-md-center gap-2 py-2 py-md-0">
+              <li class="nav-item d-md-none"><a href="/" class="nav-link fw-semibold text-dark"><i class="bi bi-arrow-left me-1"></i> プロダクト一覧に戻る</a></li>
+              {variant === 'product' ? (
+                <li class="nav-item w-100 w-md-auto"><a href={legalPath} class="btn btn-outline-success btn-sm rounded-pill w-100 w-md-auto py-2 px-3 d-inline-flex align-items-center justify-content-center text-nowrap"><i class="bi bi-shield-check me-1"></i> プライバシーポリシー</a></li>
+              ) : (
+                <li class="nav-item w-100 w-md-auto"><a href={productPath} class="btn btn-outline-secondary btn-sm rounded-pill w-100 w-md-auto py-2 px-3 d-inline-flex align-items-center justify-content-center text-nowrap"><i class="bi bi-arrow-return-left me-1"></i> プロダクトの詳細</a></li>
+              )}
+              {storeUrl && <li class="nav-item w-100 w-md-auto"><a href={storeUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm rounded-pill px-3 w-100 w-md-auto py-2 d-inline-flex align-items-center justify-content-center text-nowrap"><i class="bi bi-box-arrow-up-right me-1"></i> ストアを開く</a></li>}
+            </ul>
+          )}
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
