@@ -7,6 +7,8 @@ interface Props {
 }
 
 const { variant, productPath = '/', legalPath = '/', storeUrl } = Astro.props as Props;
+const baseUrl = import.meta.env.BASE_URL;
+const homePath = baseUrl;
 const menuId = `${variant}HeaderMenu`;
 const containerStyle = variant === 'home' ? undefined : 'max-width: 960px;';
 const navbarExpandClass = variant === 'home' ? 'navbar-expand-lg' : 'navbar-expand-md';
@@ -22,7 +24,7 @@ const navbarExpandClass = variant === 'home' ? 'navbar-expand-lg' : 'navbar-expa
             <span class="d-flex flex-column text-start"><span class="fw-bolder fs-5 text-dark lh-1">FILLMEE</span><span class="text-muted fw-normal" style="font-size: 10px;">フィルミー</span></span>
           </a>
         ) : (
-          <a href="/" class="btn btn-outline-secondary btn-sm rounded-pill d-none d-md-inline-flex">
+          <a href={homePath} class="btn btn-outline-secondary btn-sm rounded-pill d-none d-md-inline-flex">
             <i class="bi bi-arrow-left me-1"></i> プロダクト一覧に戻る
           </a>
         )}
@@ -41,7 +43,7 @@ const navbarExpandClass = variant === 'home' ? 'navbar-expand-lg' : 'navbar-expa
             </ul>
           ) : (
             <ul class="navbar-nav ms-auto align-items-md-center gap-2 py-2 py-md-0">
-              <li class="nav-item d-md-none"><a href="/" class="nav-link fw-semibold text-dark"><i class="bi bi-arrow-left me-1"></i> プロダクト一覧に戻る</a></li>
+              <li class="nav-item d-md-none"><a href={homePath} class="nav-link fw-semibold text-dark"><i class="bi bi-arrow-left me-1"></i> プロダクト一覧に戻る</a></li>
               {variant === 'product' ? (
                 <li class="nav-item w-100 w-md-auto"><a href={legalPath} class="btn btn-outline-success btn-sm rounded-pill w-100 w-md-auto py-2 px-3 d-inline-flex align-items-center justify-content-center text-nowrap"><i class="bi bi-shield-check me-1"></i> プライバシーポリシー</a></li>
               ) : (
