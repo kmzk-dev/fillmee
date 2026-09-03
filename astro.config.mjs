@@ -3,6 +3,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://kmzk-dev.github.io',
-	base: '/fillmee',
+	site: 'https://fillmee.com',
+	base: '/',
 });
